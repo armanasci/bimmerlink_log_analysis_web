@@ -28,7 +28,12 @@ For any official or accurate diagnosis, always rely on certified tools or profes
 
 <p>Within the application, simply <b>select</b> any log file exported from Bimmerlink. No additional configuration is needed.</p>
 
-<img width="911" height="561" alt="Picture_ui" src="https://github.com/user-attachments/assets/d19f1432-9ef4-41ab-b41f-906c2ee68319" />
+<h3><strong>Web Edition</strong>
+<p>
+  <a href="https://armanasci.github.io/bimmerlink_log_analysis_web/" target="_blank">
+    https://armanasci.github.io/bimmerlink_log_analysis_web/
+  </a>
+</p></h3>
 
 <h2><b>The application will generate two outputs:</b></h2>
 
@@ -52,13 +57,3 @@ Example output:<br>
 https://github.com/armanasci/bimmerlink_log_analysis/blob/main/test_data/2025-07-29_21-50-54_bimmerlink_web_report.pdf
 </a>
 </p>
-
-<h2><i><b>Some Visual Examples;</b></i></h2>
-
-<img width="876" height="289" alt="Picture2" src="https://github.com/user-attachments/assets/8acece86-7c05-4b38-a27e-e23c563ed350" />
-<img width="872" height="289" alt="Picture3" src="https://github.com/user-attachments/assets/08728afc-1208-4e65-92cb-e5a559940355" />
-<img width="873" height="288" alt="Picture4" src="https://github.com/user-attachments/assets/7e010d9e-7887-455c-94a6-532230d8a42a" />
-<img width="872" height="289" alt="Picture5" src="https://github.com/user-attachments/assets/4ca13008-a0e8-4222-b857-26f184c4d719" />
-<img width="870" height="288" alt="Picture6" src="https://github.com/user-attachments/assets/6f12150c-17b3-47b5-a874-a5220502b343" />
-
-
