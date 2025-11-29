@@ -205,6 +205,7 @@
           current += ch;
         }
       }
+
       result.push(current);
       return result;
     }
@@ -217,8 +218,10 @@
       function countDelim(line, delimiter) {
         let inQuotes = false;
         let count = 0;
+
         for (let i = 0; i < line.length; i++) {
           const ch = line[i];
+
           if (ch === '"') {
             inQuotes = !inQuotes;
           } else if (ch === delimiter && !inQuotes) {
@@ -273,14 +276,19 @@
       if (nums.length === 0) {
         return { min: null, max: null, avg: null, uniqueCount: 0 };
       }
-      let min = nums[0], max = nums[0], sum = 0;
+
+      let min = nums[0];
+      let max = nums[0];
+      let sum = 0;
       const unique = new Set();
+
       for (const n of nums) {
         if (n < min) min = n;
         if (n > max) max = n;
         sum += n;
         unique.add(n);
       }
+
       return {
         min,
         max,
@@ -377,6 +385,7 @@
         const hl = h.trim().toLowerCase();
         if (timeGuess === null && hl === "time") timeGuess = idx;
       });
+
       if (timeGuess === null) {
         headers.forEach((h, idx) => {
           const hl = h.trim().toLowerCase();
@@ -390,6 +399,7 @@
         const hl = h.trim().toLowerCase();
         if (engineGuess === null && hl === "engine speed") engineGuess = idx;
       });
+
       if (engineGuess === null) {
         headers.forEach((h, idx) => {
           const hl = h.trim().toLowerCase();
@@ -458,6 +468,7 @@
         alert("Please select both Time and Engine speed columns.");
         return;
       }
+
       if (timeIndex === engineIndex) {
         alert("Time and Engine speed columns must be different.");
         return;
@@ -471,6 +482,7 @@
 
       const timeArray = [];
       const engineArray = [];
+
       for (let i = 0; i < nRows; i += step) {
         const row = rows[i];
         timeArray.push(row[timeIndex]);
@@ -490,7 +502,12 @@
         const sensorValuesFull = rows.map(r => toNumberOrNull(r[idx]));
         const stats = calculateStats(sensorValuesFull);
 
-        if (stats.uniqueCount < 2 || stats.min === null || stats.max === null || stats.avg === null) {
+        if (
+          stats.uniqueCount < 2 ||
+          stats.min === null ||
+          stats.max === null ||
+          stats.avg === null
+        ) {
           return;
         }
 
@@ -500,7 +517,16 @@
         }
 
         chartCount++;
-        createSensorChartCard(headers, timeIndex, engineIndex, name, sensorArray, engineArray, stats, timeArray);
+        createSensorChartCard(
+          headers,
+          timeIndex,
+          engineIndex,
+          name,
+          sensorArray,
+          engineArray,
+          stats,
+          timeArray
+        );
       });
 
       if (chartCount === 0) {
@@ -509,13 +535,21 @@
         downloadPdfBtn.disabled = false;
       } else {
         exportInfo.textContent =
-          "Analysis completed. 1 Engine speed chart + " + chartCount +
+          "Analysis completed. 1 Engine speed chart + " +
+          chartCount +
           " sensor charts generated. You can export them as PDF.";
         downloadPdfBtn.disabled = false;
       }
     }
 
-    function createEngineChartCard(headers, timeIndex, engineIndex, timeArray, engineArray, engineStats) {
+    function createEngineChartCard(
+      headers,
+      timeIndex,
+      engineIndex,
+      timeArray,
+      engineArray,
+      engineStats
+    ) {
       const engineCard = document.createElement("div");
       engineCard.className = "chart-card";
 
@@ -527,11 +561,15 @@
 
       const engineStatsSpan = document.createElement("span");
       engineStatsSpan.className = "stats";
+
       if (engineStats.min !== null) {
         engineStatsSpan.textContent =
-          "Min: " + engineStats.min.toFixed(2) +
-          " | Max: " + engineStats.max.toFixed(2) +
-          " | Avg: " + engineStats.avg.toFixed(2);
+          "Min: " +
+          engineStats.min.toFixed(2) +
+          " | Max: " +
+          engineStats.max.toFixed(2) +
+          " | Avg: " +
+          engineStats.avg.toFixed(2);
       } else {
         engineStatsSpan.textContent = "No numeric data";
       }
@@ -547,6 +585,7 @@
       chartsContainer.appendChild(engineCard);
 
       const engineCtx = engineCanvas.getContext("2d");
+
       new Chart(engineCtx, {
         type: "line",
         data: {
@@ -582,7 +621,16 @@
       });
     }
 
-    function createSensorChartCard(headers, timeIndex, engineIndex, name, sensorArray, engineArray, stats, timeArray) {
+    function createSensorChartCard(
+      headers,
+      timeIndex,
+      engineIndex,
+      name,
+      sensorArray,
+      engineArray,
+      stats,
+      timeArray
+    ) {
       const card = document.createElement("div");
       card.className = "chart-card";
 
@@ -595,9 +643,12 @@
       const statsSpan = document.createElement("span");
       statsSpan.className = "stats";
       statsSpan.textContent =
-        "Min: " + stats.min.toFixed(2) +
-        " | Max: " + stats.max.toFixed(2) +
-        " | Avg: " + stats.avg.toFixed(2);
+        "Min: " +
+        stats.min.toFixed(2) +
+        " | Max: " +
+        stats.max.toFixed(2) +
+        " | Avg: " +
+        stats.avg.toFixed(2);
 
       headerDiv.appendChild(titleSpan);
       headerDiv.appendChild(statsSpan);
@@ -664,7 +715,7 @@
       });
     }
 
-    async function downloadChartsPdf() {
+    function downloadChartsPdf() {
       const cards = document.querySelectorAll(".chart-card");
       if (!cards.length) {
         alert("No charts to export. Please run the analysis first.");
@@ -698,10 +749,9 @@
 
       let firstPage = true;
 
-      for (let i = 0; i < cards.length; i++) {
-        const card = cards[i];
+      cards.forEach((card) => {
         const canvas = card.querySelector("canvas");
-        if (!canvas) continue;
+        if (!canvas) return;
 
         const headerEl = card.querySelector(".chart-header");
         let titleText = "";
@@ -714,7 +764,7 @@
         }
 
         const offCanvas = document.createElement("canvas");
-        offCanvas.width = firstCanvas.width; 
+        offCanvas.width = firstCanvas.width;
         offCanvas.height = firstCanvas.height + headerHeight + footerHeight;
         const offCtx = offCanvas.getContext("2d");
 
@@ -739,13 +789,12 @@
         firstPage = false;
 
         pdf.addImage(imgData, "JPEG", 0, 0, contentWidthMm, contentHeightMm);
-
-        await new Promise(r => setTimeout(r, 0));
-      }
+      });
 
       const pdfName = (currentFileName || "bimmerlink") + "_bimmerlink_web_report.pdf";
       const pdfBlob = pdf.output("blob");
       const url = URL.createObjectURL(pdfBlob);
+
       const a = document.createElement("a");
       a.href = url;
       a.download = pdfName;
@@ -756,6 +805,7 @@
 
       exportInfo.textContent = "PDF generated and downloaded: " + pdfName;
     }
+	
   </script>
 </body>
 </html>
